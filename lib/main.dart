@@ -4,13 +4,17 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 
-void main() => runApp(MyApp());
+
+void main() async {
+
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -163,8 +167,13 @@ class _HomePageState extends State<HomePage> {
                           headerText = val;
                         });
                       },
-                      decoration:
-                      InputDecoration(hintText: "Header Text"),
+                      decoration: InputDecoration(
+                          hintText: "Header Text",
+                          fillColor: Colors.white,
+                          filled: true,
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.white, width: 2.0))),
                     ),
                     SizedBox(
                       height: 12,
@@ -175,18 +184,26 @@ class _HomePageState extends State<HomePage> {
                           footerText = val;
                         });
                       },
-                      decoration:
-                      InputDecoration(hintText: "Footer Text"),
+                      decoration: InputDecoration(
+                          hintText: "Footer Text",
+                          fillColor: Colors.white,
+                          filled: true,
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Colors.white, width: 2.0))),
                     ),
                     SizedBox(
                       height: 20,
                     ),
                     RaisedButton(
+                      color: Colors.blueAccent,
                       onPressed: () {
-                        //TODO
                         takeScreenshot();
                       },
-                      child: Text("Save"),
+                      child: Text(
+                        "Save",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     )
                   ],
                 ),
@@ -230,6 +247,11 @@ class _HomePageState extends State<HomePage> {
     await _askPermission();
     GallerySaver.saveImage(file.path, albumName: albumName)
         .then((bool success) {
+      Fluttertoast.showToast(
+        msg: "Meme Saved in Gallery",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+      );
       print('Image is saved');
     });
     print(2);
